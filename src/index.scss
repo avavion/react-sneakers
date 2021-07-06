@@ -83,6 +83,21 @@ a {
     }
   }
 
+  &--checked {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-green);
+    border: 1px solid #f2f2f2;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: rgb(223, 223, 223);
+    }
+  }
+
   &--remove {
     background: #ffffff;
     border: 1px solid #dbdbdb;
@@ -121,6 +136,13 @@ ol {
 
 .header {
   border-bottom: 1px solid #eaeaea;
+  .nav {
+    &-list {
+      &-item {
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .nav {
@@ -216,7 +238,7 @@ ol {
 .wishlist {
   &-button {
     width: 32px;
-    padding: 10px 0px;
+    padding: 9px 0px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -327,6 +349,7 @@ ol {
   height: 100vh;
   background: #ffffff;
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 8px 0px 0px 8px;
   &__title {
     font-style: normal;
     font-weight: bold;
