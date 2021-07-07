@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Header from "./components/Header";
 import Slider from "./components/Slider";
 import Drawer from "./components/Drawer";
 import Card from "./components/Card";
 
+const URL = `https://60e3901a6c365a0017839302.mockapi.io`;
+
 const App = () => {
 
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
+
+  const [searchValue, setSearchValue] = useState("");
 
   const [cartIsOpen, setCartIsOpen] = useState(false);
 
@@ -18,25 +23,15 @@ const App = () => {
   }
 
   const onAddToCart = (obj) => {
-    setCartItems((prev) => [...prev, obj]);
+    axios.post(`${URL}/cart`, obj);
+    setCartItems((prev) => [...prev, obj])
   }
 
-  console.log(wishlistItems);
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value);
+  }
 
-  useEffect(() => {
-    fetch('https://60e3901a6c365a0017839302.mockapi.io/items')
-      .then((response) => response.json())
-      .then(data => setItems(data))
-      .catch((error) => {
-        return setItems([
-          {
-            name: "Мужские кроссовки",
-            price: 12.999,
-            image: "1.png"
-          }
-        ]);
-      })
-  }, [])
+  useEffect(() => axios.get(`${URL}/items`).then(response => setItems(response.data)).catch(setItems([])), []);
 
   return (
     <div className="wrapper">
@@ -46,15 +41,15 @@ const App = () => {
       <section className="section collection">
         <div className="section-header">
           <h1 className="section-header__title">
-            Все кроссовки
+            {searchValue ? `Поиск по запросу: "${searchValue}"` : `Все кроссовки`}
           </h1>
           <div className="search d-flex align-center">
             <img className="search__icon" width={14.25} height={14.25} src="media/icons/search.svg" alt="Search" />
-            <input type="text" className="search__input" placeholder="Поиск..." />
+            <input onChange={onChangeSearchInput} value={searchValue} type="text" className="search__input" placeholder="Поиск..." />
           </div>
         </div>
-        <ul className="cards">
-          {items.map((item, index) =>
+        {items.length > 0 ? <ul className="cards">
+          {items.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase())).map((item, index) =>
             <Card
               key={`item_${index}`}
               name={item.name}
@@ -64,7 +59,8 @@ const App = () => {
               onPlus={(product) => onAddToCart(product)}
             />
           )}
-        </ul>
+        </ul> : <h1>Нет интернет подключения!</h1>}
+
       </section>
     </div>
   );
