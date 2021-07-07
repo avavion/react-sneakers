@@ -27,15 +27,23 @@ const App = () => {
     setCartItems((prev) => [...prev, obj])
   }
 
+  const onRemoveItem = (id) => {
+    axios.delete(`${URL}/cart/${id}`);
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  }
+
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value);
   }
 
-  useEffect(() => axios.get(`${URL}/items`).then(response => setItems(response.data)).catch(setItems([])), []);
+  useEffect(() => {
+    axios.get(`${URL}/items`).then(response => setItems(response.data)).catch(setItems([]));
+    axios.get(`${URL}/cart`).then(response => setCartItems(response.data)).catch(setItems([]));
+  }, []);
 
   return (
     <div className="wrapper">
-      {cartIsOpen && <Drawer onClose={() => setCartIsOpen(false)} items={cartItems} />}
+      {cartIsOpen && <Drawer onClose={() => setCartIsOpen(false)} items={cartItems} onRemove={onRemoveItem} />}
       <Header onClickCart={() => setCartIsOpen(true)} />
       <Slider />
       <section className="section collection">

@@ -1,4 +1,4 @@
-const Drawer = ({ onClose, items = [] }) => {
+const Drawer = ({ onClose, items = [], onRemove }) => {
   return (
     <div className='overlay'>
       <div className='drawer d-flex col'>
@@ -34,7 +34,10 @@ const Drawer = ({ onClose, items = [] }) => {
                     <h3 className='cart-item__title'>{item.name}</h3>
                     <p className='cart-item__price'>{item.price} руб.</p>
                   </div>
-                  <button className='cart-item__button button button--remove'>
+                  <button
+                    className='cart-item__button button button--remove'
+                    onClick={() => onRemove(item.id)}
+                  >
                     <img
                       width={16}
                       height={16}
