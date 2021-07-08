@@ -383,6 +383,7 @@ ol {
       }
       &__button {
         margin-left: 12px;
+        margin-left: auto;
       }
     }
   }
@@ -435,5 +436,65 @@ ol {
         margin: 0px 8px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .cards {
+    gap: 15px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 668px) {
+  .collection {
+    .section-header {
+      margin-bottom: 60px;
+      flex-direction: column;
+      &__title {
+        margin-bottom: 30px;
+      }
+    }
+  }
+
+  .search{
+    width: 100%;
+  }
+
+  .card{
+    padding: 15px;
+    border-radius: 20px;
+    &__title{
+      font-size: 12px;
+    }
+    &__price{
+      font-size: 10px;
+      & span {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px){
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .nav {
+    flex-direction: column;
+    &-logo{
+      margin-bottom: 30px;
+    }
+  }
+  .wrapper{
+    margin: 0;
+  }
+  .drawer{
+    width: 100%;
   }
 }
