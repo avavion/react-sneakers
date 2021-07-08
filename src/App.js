@@ -5,8 +5,7 @@ import Header from "./components/Header";
 import Slider from "./components/Slider";
 import Drawer from "./components/Drawer";
 import Card from "./components/Card";
-
-const URL = `https://60e3901a6c365a0017839302.mockapi.io`;
+import Loader from "./components/Loader";
 
 const App = () => {
 
@@ -19,16 +18,17 @@ const App = () => {
   const [cartIsOpen, setCartIsOpen] = useState(false);
 
   const onAddToWishlist = (obj) => {
+    axios.post(`/wishlist`, obj);
     setWishlistItems((prev) => [...prev, obj]);
   }
 
   const onAddToCart = (obj) => {
-    axios.post(`${URL}/cart`, obj);
+    axios.post(`/cart`, obj);
     setCartItems((prev) => [...prev, obj])
   }
 
   const onRemoveItem = (id) => {
-    axios.delete(`${URL}/cart/${id}`);
+    axios.delete(`/cart/${id}`);
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   }
 
@@ -37,8 +37,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    axios.get(`${URL}/items`).then(response => setItems(response.data)).catch(setItems([]));
-    axios.get(`${URL}/cart`).then(response => setCartItems(response.data)).catch(setItems([]));
+    axios.get(`/items`).then(response => setItems(response.data)).catch(setItems([]));
+    axios.get(`/cart`).then(response => setCartItems(response.data)).catch(setItems([]));
+    axios.get(`/wishlist`).then(response => setWishlistItems(response.data)).catch(setWishlistItems([]));
   }, []);
 
   return (
@@ -67,8 +68,7 @@ const App = () => {
               onPlus={(product) => onAddToCart(product)}
             />
           )}
-        </ul> : <h1>Нет интернет подключения!</h1>}
-
+        </ul> : <Loader />}
       </section>
     </div>
   );

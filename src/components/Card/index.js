@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import "./Card.module.scss";
 
 const Card = ({ onFavorite, image, name, price, onPlus }) => {
 
   const [isAdded, setIsAdded] = useState(false);
-  const [isAddedWishlist, setIsAddedWishlist] = useState(false);
+  const [isWishlist, setIsWishlist] = useState(false);
 
   const onClickWishlist = () => {
     onFavorite({ name, price, image });
-    setIsAddedWishlist(!isAddedWishlist);
+    setIsWishlist(!isWishlist);
   }
 
   const onClickPlus = () => {
@@ -17,11 +17,19 @@ const Card = ({ onFavorite, image, name, price, onPlus }) => {
     setIsAdded(!isAdded);
   }
 
-  useEffect(() => console.log("Переменная isAdded изменилась!"), [isAdded]);
-
   return (
     <li className='card'>
-      <button onClick={onClickWishlist} className='button wishlist-button wishlist-button--liked'>
+      <button onClick={onClickWishlist} className={`button wishlist-button ${isWishlist && 'wishlist-button--liked'}`}>
+        <img
+          width={15}
+          height={14}
+          className='wishlist-button__icon'
+          src={isWishlist ? `/media/icons/liked.svg` : `/media/icons/unliked.svg`}
+          alt='Wishlist Button'
+        />
+      </button>
+
+      {/* <button onClick={onClickWishlist} className='button wishlist-button wishlist-button--liked'>
         <img
           width={15}
           height={15}
@@ -29,7 +37,7 @@ const Card = ({ onFavorite, image, name, price, onPlus }) => {
           src='/media/icons/liked.svg'
           alt='Liked'
         />
-      </button>
+      </button> */}
       <img
         className='card__image'
         width={`100%`}
@@ -52,15 +60,6 @@ const Card = ({ onFavorite, image, name, price, onPlus }) => {
               alt='Plus'
             />
           </button>
-
-          {/* <button onClick={onClickPlus} className='button button--checked cart__button'>
-            <img
-              width={11}
-              height={11}
-              src='/media/icons/checked.svg'
-              alt='Checked'
-            />
-          </button> */}
         </div>
       </div>
     </li>
