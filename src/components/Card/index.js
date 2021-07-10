@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 import "./Card.module.scss";
 
-const Card = ({ onFavorite, image, name, price, onPlus }) => {
+const Card = ({ onAddToWishlist, image, name, price, onPlus, favorited = false }) => {
 
   const [isAdded, setIsAdded] = useState(false);
-  const [isWishlist, setIsWishlist] = useState(false);
+  const [isWishlist, setIsWishlist] = useState(favorited);
 
   const onClickWishlist = () => {
-    onFavorite({ name, price, image });
+    onAddToWishlist({ name, price, image });
     setIsWishlist(!isWishlist);
   }
 
