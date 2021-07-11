@@ -12,11 +12,9 @@ const Wishlist = ({ items = [], onAddToWishlist }) => {
           {items.map((item, index) => (
             <Card
               key={`wishlist_item_${index}`}
-              name={item.name}
-              price={item.price}
-              image={`${item.image}`}
               favorited={true}
               onAddToWishlist={onAddToWishlist}
+              {...item}
             />
           ))}
         </ul>

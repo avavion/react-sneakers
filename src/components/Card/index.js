@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 import "./Card.module.scss";
 
-const Card = ({ onAddToWishlist, image, name, price, onPlus, favorited = false }) => {
+const Card = ({ onAddToWishlist, id, image, name, price, onPlus, onFavorite, favorited = false }) => {
 
   const [isAdded, setIsAdded] = useState(false);
   const [isWishlist, setIsWishlist] = useState(favorited);
 
   const onClickWishlist = () => {
-    onAddToWishlist({ name, price, image });
+    onAddToWishlist({ id, name, price, image });
     setIsWishlist(!isWishlist);
   }
 
@@ -42,7 +42,7 @@ const Card = ({ onAddToWishlist, image, name, price, onPlus, favorited = false }
         className='card__image'
         width={`100%`}
         height={`100%`}
-        src={image}
+        src={`/media/images/${image}`}
         alt={name}
       />
       <div className='card-info'>

@@ -6,7 +6,7 @@ const CartItem = ({ item, onRemove }) => {
                     width={70}
                     height={70}
                     className='cart-item__image'
-                    src={`${item.image}`}
+                    src={`/media/images/${item.image}`}
                     alt='Cart Item'
                 />
                 <div className='d-flex col'>

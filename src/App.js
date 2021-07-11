@@ -17,14 +17,23 @@ const App = () => {
   const [searchValue, setSearchValue] = useState("");
   const [cartIsOpen, setCartIsOpen] = useState(false);
 
-  const onAddToWishlist = (obj) => {
-    axios.post(`https://60e3901a6c365a0017839302.mockapi.io/wishlist`, obj);
-    setWishlistItems((prev) => [...prev, obj]);
+  const onAddToWishlist = async (obj) => {
+    if (wishlistItems.find(wishlistObject => wishlistObject.id === obj.id)) {
+      axios.delete(`https://60e3901a6c365a0017839302.mockapi.io/wishlist/${obj.id}`);
+      // setWishlistItems((prev) => prev.filter((item) => item.id !== obj.id))
+    } else {
+      const { data } = await axios.post(`https://60e3901a6c365a0017839302.mockapi.io/wishlist`, obj);
+      setWishlistItems((prev) => [...prev, data]);
+    }
   }
 
-  const onAddToCart = (obj) => {
-    axios.post(`https://60e3901a6c365a0017839302.mockapi.io/cart`, obj);
-    setCartItems((prev) => [...prev, obj])
+  const onAddToCart = async (obj) => {
+    if (cartItems.find(cartItem => cartItem.id === obj.id)) {
+      axios.delete(`https://60e3901a6c365a0017839302.mockapi.io/cart/${obj.id}`);
+    } else {
+      const { data } = await axios.post(`https://60e3901a6c365a0017839302.mockapi.io/cart`, obj);
+      setCartItems((prev) => [...prev, data]);
+    }
   }
 
   const onRemoveItem = (id) => {

@@ -41,11 +41,9 @@ const Home = ({
             .map((item, index) => (
               <Card
                 key={`item_${index}`}
-                name={item.name}
-                price={item.price}
-                image={`/media/images/${item.image}`}
-                onFavorite={(product) => onAddToWishlist(product)}
+                onAddToWishlist={(product) => onAddToWishlist(product)}
                 onPlus={(product) => onAddToCart(product)}
+                {...item}
               />
             ))}
         </ul>
