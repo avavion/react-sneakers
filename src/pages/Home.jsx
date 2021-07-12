@@ -1,14 +1,31 @@
 import Card from "../components/Card";
-import Loader from "../components/Loader";
 
 const Home = ({
   items,
   searchValue,
-  setSearchValue,
   onChangeSearchInput,
   onAddToWishlist,
   onAddToCart,
+  cartItems,
+  isReady,
 }) => {
+  const renderItems = () => {
+    const filtredItems = items.filter((item) =>
+      item.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
+    return (isReady ? filtredItems : [...Array(12)]).map((item, index) => (
+      <Card
+        key={`item_${index}`}
+        onAddToWishlist={(product) => onAddToWishlist(product)}
+        onPlus={(product) => onAddToCart(product)}
+        added={cartItems.some((obj) => Number(obj.id) === Number(item.id))}
+        loading={isReady}
+        {...item}
+      />
+    ));
+  };
+
   return (
     <section className='section collection'>
       <div className='section-header'>
@@ -32,24 +49,7 @@ const Home = ({
           />
         </div>
       </div>
-      {items.length > 0 ? (
-        <ul className='cards'>
-          {items
-            .filter((item) =>
-              item.name.toLowerCase().includes(searchValue.toLowerCase())
-            )
-            .map((item, index) => (
-              <Card
-                key={`item_${index}`}
-                onAddToWishlist={(product) => onAddToWishlist(product)}
-                onPlus={(product) => onAddToCart(product)}
-                {...item}
-              />
-            ))}
-        </ul>
-      ) : (
-        <Loader />
-      )}
+      <ul className='cards'>{renderItems()}</ul>
     </section>
   );
 };
